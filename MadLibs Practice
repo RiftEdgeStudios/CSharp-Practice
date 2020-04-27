@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MadLibsPractice
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Declares variables that you are using of that type
+            //When using this, you don't need to declare the variable type again
+            string properNoun, adjective, verb, noun;
+
+            Console.Write("Hello and welcome to MadLibs! To begin I need 4 words. First, a proper noun: ");
+            properNoun = Console.ReadLine();
+            Console.Write("Second, an adjective: ");
+            adjective = Console.ReadLine();
+            Console.Write("Third, I need a verb: ");
+            verb = Console.ReadLine();
+            Console.Write("Finally I need a noun: ");
+            noun = Console.ReadLine();
+            Console.Write("Ok would you like the A, B, or C MadLib? ");
+            string choice = Console.ReadLine();
+
+            if (choice == "A")
+            {
+                Console.WriteLine("You are " + properNoun + ".");
+                Console.WriteLine("You like to " + verb + ".");
+                Console.WriteLine("That is your " + adjective + " hobby.");
+                Console.WriteLine("You are " + noun + ".");
+            }
+            else if (choice == "B")
+            {
+                Console.WriteLine("Your name is " + properNoun + ".");
+                Console.WriteLine("You like to go" + verb + " around town all day.");
+                Console.WriteLine("Most people call you a(n) " + adjective + " " + noun + " because of that.");
+                
+            }
+            else if (choice == "C")
+            {
+                Console.WriteLine("You love " + properNoun + ".");
+                Console.WriteLine("You think that they are " + adjective + ".");
+                Console.WriteLine("I'm not sure that they would want you to go " + verb + " near them.");
+                Console.WriteLine("Because the world would think that you eat " + noun + ".");
+            }
+
+
+
+            Console.ReadLine();
+        }
+    }
+}
