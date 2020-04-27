@@ -32,12 +32,13 @@ namespace CalculatorPractice
                     double exponentNumber = Convert.ToDouble(Console.ReadLine());
                     double exponent = Math.Pow(num3, exponentNumber);
                     Console.WriteLine(exponent + " is the answer. Thank you for using Calculator!");
-                }  
+                }
+                else
+                {
+                    Console.WriteLine("Sorry! But you need to write one or two or give me a number!");
+                }
             }
-            else
-            {
-                Console.WriteLine("Sorry! But you need to write one or two or give me a number!");
-            }
+           
 
             if (choice1 == "two" || choice1 == "1")
             {
@@ -45,7 +46,7 @@ namespace CalculatorPractice
                 double num = Convert.ToDouble(Console.ReadLine());
                 Console.Write("Nice! I'll need a second number as well! ");
                 double num2 = Convert.ToDouble(Console.ReadLine());
-                Console.Write("Now then, would you like to add (1), subtract (2), multiply (3), or divide (4) the numbers? ");
+                Console.Write("Now then, would you like to add (1), subtract (2), divide (3), or multiply (4) the numbers? ");
                 string choice3 = Console.ReadLine();
 
                 if (choice3 == "add" || choice3 == "1")
