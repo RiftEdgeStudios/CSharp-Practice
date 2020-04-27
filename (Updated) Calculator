@@ -32,7 +32,11 @@ namespace CalculatorPractice
                     double exponentNumber = Convert.ToDouble(Console.ReadLine());
                     double exponent = Math.Pow(num3, exponentNumber);
                     Console.WriteLine(exponent + " is the answer. Thank you for using Calculator!");
-                }
+                }  
+            }
+            else
+            {
+                Console.WriteLine("Sorry! But you need to write one or two or give me a number!");
             }
 
             if (choice1 == "two" || choice1 == "1")
@@ -41,28 +45,32 @@ namespace CalculatorPractice
                 double num = Convert.ToDouble(Console.ReadLine());
                 Console.Write("Nice! I'll need a second number as well! ");
                 double num2 = Convert.ToDouble(Console.ReadLine());
-                Console.Write("Now then, would you like to add, subtract, multiply, or divide the numbers? ");
+                Console.Write("Now then, would you like to add (1), subtract (2), multiply (3), or divide (4) the numbers? ");
                 string choice3 = Console.ReadLine();
 
-                if (choice3 == "add")
+                if (choice3 == "add" || choice3 == "1")
                 {
                     double add = num + num2;
                     Console.WriteLine(add + " is the answer. Thank you for using Calculator!");
                 }
-                else if (choice3 == "subtract")
+                else if (choice3 == "subtract" || choice3 == "2")
                 {
                     double subtract = num - num2;
                     Console.WriteLine(subtract + " is the answer. Thank you for using Calculator!");
                 }
-                else if (choice3 == "divide")
+                else if (choice3 == "divide" || choice3 == "3")
                 {
                     double divide = num / num2;
                     Console.WriteLine(divide + " is the answer. Thank you for using Calculator!");
                 }
-                else if (choice3 == "multiply")
+                else if (choice3 == "multiply" || choice3 == "4")
                 {
                     double multiply = num * num2;
                     Console.WriteLine(multiply + " is the answer. Thank you for using Calculator!");
+                }
+                else
+                {
+                    Console.WriteLine("Sorry! But you need to write 1, 2, 3, or 4 or the actual words for the operation!");
                 }
             }
 
@@ -71,4 +79,3 @@ namespace CalculatorPractice
         }
     }
 }
-
