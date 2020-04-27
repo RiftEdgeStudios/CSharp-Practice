@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CalculatorPractice
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Convert: a method used to convert variables to a different type of variable or other things
+            Console.Write("Hello! I'm a calculator! Would you like to use one or two numbers? Please use lowercase for all choices! ");
+            string choice1 = Console.ReadLine();
+            
+            if (choice1 == "1" || choice1 == "one")
+            {
+                Console.Write("Nice! Now give me a number! ");
+                double num3 = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Ok! Would you like to square root it (1) or multiply it by an exponent (2)? ");
+                string choice2 = Console.ReadLine();
+
+                if (choice2 == "1")
+                {
+                    double root = Math.Sqrt(num3);
+                    Console.WriteLine(root + " is the answer. Thank you for using Calculator!");
+                }
+                else if (choice2 == "2")
+                {
+                    Console.Write("I will need the exponent! ");
+                    double exponentNumber = Convert.ToDouble(Console.ReadLine());
+                    double exponent = Math.Pow(num3, exponentNumber);
+                    Console.WriteLine(exponent + " is the answer. Thank you for using Calculator!");
+                }
+            }
+
+            if (choice1 == "two" || choice1 == "1")
+            {
+                Console.Write("Nice! Now give me a number! ");
+                double num = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Nice! I'll need a second number as well! ");
+                double num2 = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Now then, would you like to add, subtract, multiply, or divide the numbers? ");
+                string choice3 = Console.ReadLine();
+
+                if (choice3 == "add")
+                {
+                    double add = num + num2;
+                    Console.WriteLine(add + " is the answer. Thank you for using Calculator!");
+                }
+                else if (choice3 == "subtract")
+                {
+                    double subtract = num - num2;
+                    Console.WriteLine(subtract + " is the answer. Thank you for using Calculator!");
+                }
+                else if (choice3 == "divide")
+                {
+                    double divide = num / num2;
+                    Console.WriteLine(divide + " is the answer. Thank you for using Calculator!");
+                }
+                else if (choice3 == "multiply")
+                {
+                    double multiply = num * num2;
+                    Console.WriteLine(multiply + " is the answer. Thank you for using Calculator!");
+                }
+            }
+
+
+            Console.ReadLine();
+        }
+    }
+}
+
