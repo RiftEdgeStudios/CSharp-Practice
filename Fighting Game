@@ -1,0 +1,1501 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+/*TO DO:
+ -Fix dialog and dmg duplication within No Tutorial Brawler CPU
+ */
+namespace FightingGame
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Console.Write("Welcome to the EPIC Fighting Game! We have two options: Multiplayer (1) or PvCPU (2). Which one do you want to play? ");
+            string playStyle = Console.ReadLine();
+
+            int ultimateBrawlerCount = 0;
+            int brawlerHealth = 200;
+            int brawlerMana = 50;
+            int ultimateRangerCount = 0;
+            int rangerMana = 30;
+            int rangerHealth = 125;
+            bool playerOneTurn = true;
+            bool playerTwoTurn = false;
+            bool gameOver = false;
+
+            if (playStyle == "1" || playStyle == "one")
+            {
+                Console.Write("Would you like to go through the basics? Yes or No? ");
+                string tutorialChoice = Console.ReadLine();
+
+                if (tutorialChoice == "yes" || tutorialChoice == "Yes" && tutorialChoice != "no" && tutorialChoice != "No")
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Nice! There are two classes: Brawler (Player 1) and Ranger (Player 2).");
+                    Console.WriteLine("Brawler: More HP, less damage, and more mana. Use your abilities to conquer the other player!");
+                    Console.WriteLine("Ranger: Less HP, more damage, and less mana. Rely on your basic attacks and strategy to take down the other player!");
+                    Console.WriteLine("Basic Attacks: Normal attacks that use no mana.");
+                    Console.WriteLine("Abilities: Attacks that require mana and do different things.");
+                    Console.WriteLine("Mana: Energy required to use abilities.");
+                    Console.WriteLine("Ultimates: Special Moves that can deal a ton of damage! They also cost mana.");
+                    Console.WriteLine("");
+
+                    Console.Write("Say \"Continue\" to continue! ");
+                    string continue1 = Console.ReadLine();
+
+                    if (continue1 == "Continue" || continue1 == "continue")
+                    {
+                        Console.Write("Player One, give me your name: ");
+                        string playerOneName = Console.ReadLine();
+                        Console.Write("Player Two, give me your name: ");
+                        string playerTwoName = Console.ReadLine();
+                        Console.WriteLine("Fight!");
+
+                        while (brawlerHealth > 0 && rangerHealth > 0 && gameOver == false)
+                        {
+                            Random rnd = new Random();
+                            //BRAWLER//
+                            if (playerOneTurn == true && ultimateBrawlerCount < 6)
+                            {
+
+                                int brawlerBasic = rnd.Next(8, 12);
+                                int brawlerAbility = rnd.Next(10, 15);
+                                int brawlerUltimate = rnd.Next(15, 25);
+                                playerOneTurn = false;
+                                Console.WriteLine("");
+                                Console.WriteLine(playerOneName + ": " + brawlerHealth + "HP " + brawlerMana + " Mana");
+                                Console.WriteLine("(1) Pure Strength (Basic): Punch your opponent with ease.");
+                                Console.WriteLine("(2) Iron Fists (Ability): Turn your fists into Iron Gauntlets and land a crushing blow on your opponent! Requires: 7 Mana");
+                                Console.WriteLine("Seismic Slam: Current Charge:" + ultimateBrawlerCount + "/6. Requires: 15 Mana and 6/6 Ultimate Charges.");
+                                Console.Write("Choose your attack: 1 or 2 ");
+                                string brawlerAttackChoice = Console.ReadLine();
+
+                                if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one")
+                                {
+                                    rangerHealth = rangerHealth - brawlerBasic;
+                                    ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks " + playerTwoName + " into oblivion, taking away " + brawlerBasic + " HP!");
+                                    playerTwoTurn = true;
+                                }
+
+                                else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two")
+                                {
+                                    rangerHealth = rangerHealth - brawlerAbility;
+                                    ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                    brawlerMana = brawlerMana - 7;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams " + playerTwoName + " into the ground, launching off " + brawlerAbility + " HP!");
+                                    Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                    playerTwoTurn = true;
+                                }
+                                else if (brawlerMana < 6 && brawlerAttackChoice == "two" || brawlerAttackChoice == "2")
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Not enough Mana!");
+                                    playerOneTurn = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Please say either 1 or 2!");
+                                    playerOneTurn = true;
+                                }
+                            }
+                            //BRAWLER ULTIMATE//
+                            else if (playerOneTurn == true && ultimateBrawlerCount >= 6)
+                            {
+                                int brawlerBasic = rnd.Next(8, 12);
+                                int brawlerAbility = rnd.Next(10, 15);
+                                int brawlerUltimate = rnd.Next(15, 25);
+                                playerOneTurn = false;
+                                Console.WriteLine("");
+                                Console.WriteLine(playerOneName + ": " + brawlerHealth + "HP " + brawlerMana + " Mana");
+                                Console.WriteLine("(1) Pure Strength (Basic): Punch your opponent with ease.");
+                                Console.WriteLine("(2) Iron Fists (Ability): Turn your fists into Iron Gauntlets and land a crushing blow on your opponent! Requires: 7 Mana");
+                                Console.WriteLine("(3) Seismic Slam: Forcefully grabs the opponent and hurls them both into the stratosphere, crash landing on the opponent! Requires: 15 Mana");
+                                Console.Write("Choose your attack: 1, 2 or 3 ");
+                                string brawlerAttackChoice = Console.ReadLine();
+
+                                if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one")
+                                {
+                                    rangerHealth = rangerHealth - brawlerBasic;
+                                    ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Nice Hit! " + playerOneName + "rocks and socks " + playerTwoName + " into oblivion, taking away " + brawlerBasic + " HP!");
+                                    playerTwoTurn = true;
+                                }
+                                else if (brawlerMana < 6 && brawlerAttackChoice == "two" || brawlerAttackChoice == "2")
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Not enough Mana!");
+                                    playerOneTurn = true;
+                                }
+
+                                else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two")
+                                {
+                                    rangerHealth = rangerHealth - brawlerAbility;
+                                    ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                    brawlerMana = brawlerMana - 7;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams " + playerTwoName + " into the ground, launching off " + brawlerAbility + " HP!");
+                                    Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                    playerTwoTurn = true;
+                                }
+                                else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three")
+                                {
+                                    rangerHealth = rangerHealth - brawlerUltimate;
+                                    ultimateBrawlerCount = 0;
+                                    brawlerMana = brawlerMana - 15;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("BOOM! " + playerOneName + " skydives down to Earth with " + playerTwoName + " and crash lands on top of " + playerTwoName + ", obliterating " + brawlerUltimate + " HP!");
+                                    Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                    playerTwoTurn = true;
+                                }
+                                else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three" && brawlerMana < 15)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Not enough Mana!");
+                                    playerOneTurn = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Please say either 1, 2, or 3!");
+                                    playerOneTurn = true;
+                                }
+                            }
+                            if (playerTwoTurn == true && rangerHealth <= 0)
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Game Over! " + playerOneName + " is the winner!");
+                                Console.WriteLine("Thank you for playing!");
+                                gameOver = true;
+                            }
+                            //RANGER//
+                            if (playerTwoTurn == true && ultimateRangerCount < 6)
+                            {
+                                int rangerBasic = rnd.Next(12, 15);
+                                int rangerAbility = rnd.Next(16, 22);
+                                int rangerUltimate = rnd.Next(23, 40);
+                                playerTwoTurn = false;
+                                Console.WriteLine("");
+                                Console.WriteLine(playerTwoName + ": " + rangerHealth + "HP " + rangerMana + " Mana");
+                                Console.WriteLine("(1) Accuracy and Precision (Basic): Scope in your opponent and shoot a bullet straight into their gut.");
+                                Console.WriteLine("(2) .50 Cal (Ability): Pull out your .50 Caliber Sniper and tear through their body with a single shot! Requires: 6 Mana");
+                                Console.WriteLine("Deadshot: Current Charge:" + ultimateRangerCount + "/6. Requires: 10 Mana and 6/6 Ultimate Charges.");
+                                Console.Write("Choose your attack: 1 or 2 ");
+                                string rangerAttackChoice = Console.ReadLine();
+
+                                if (rangerAttackChoice == "1" || rangerAttackChoice == "one")
+                                {
+                                    brawlerHealth = brawlerHealth - rangerBasic;
+                                    ultimateRangerCount = ultimateRangerCount + 1;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Nice Shot! " + playerTwoName + " lands a direct shot into " + playerOneName + "'s gut, tearing out " + rangerBasic + " HP!");
+                                    playerOneTurn = true;
+                                }
+
+                                else if (rangerAttackChoice == "2" || rangerAttackChoice == "two")
+                                {
+                                    brawlerHealth = brawlerHealth - rangerAbility;
+                                    ultimateRangerCount = ultimateRangerCount + 1;
+                                    rangerMana = rangerMana - 6;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Right through the chest! " + playerTwoName + " snipes " + playerTwoName + ", tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                    Console.WriteLine(playerTwoName + " now has " + rangerMana + " Mana left.");
+                                    playerOneTurn = true;
+                                }
+                                else if (rangerMana < 6 && rangerAttackChoice == "two" || rangerAttackChoice == "2")
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Not enough Mana!");
+                                    playerOneTurn = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Please say either 1 or 2!");
+                                    playerTwoTurn = true;
+                                }
+                            }
+                            //RANGER ULTIMATE//
+                            else if (playerTwoTurn == true && ultimateRangerCount >= 6)
+                            {
+                                int rangerBasic = rnd.Next(12, 15);
+                                int rangerAbility = rnd.Next(16, 22);
+                                int rangerUltimate = rnd.Next(23, 40);
+                                playerTwoTurn = false;
+                                Console.WriteLine("");
+                                Console.WriteLine(playerTwoName + ": " + rangerHealth + "HP " + rangerMana + " Mana");
+                                Console.WriteLine("(1) Accuracy and Precision (Basic): Scope in your opponent and shoot a bullet straight into their gut.");
+                                Console.WriteLine("(2) .50 Cal (Ability): Pull out your .50 Caliber Sniper and tear through their body with a single shot! Requires: 6 Mana");
+                                Console.WriteLine("Deadshot: Charges up a nuclear-infused beam of plasma and shoots right through your opponent's head, disintegrating a matter within the area! Requires: 10 Mana.");
+                                Console.Write("Choose your attack: 1, 2, or 3 ");
+                                string rangerAttackChoice = Console.ReadLine();
+
+                                if (rangerAttackChoice == "1" || rangerAttackChoice == "one")
+                                {
+                                    brawlerHealth = brawlerHealth - rangerBasic;
+                                    ultimateRangerCount = ultimateRangerCount + 1;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Nice Shot! " + playerTwoName + " lands a direct shot into " + playerOneName + "'s gut, tearing out " + rangerBasic + " HP!");
+                                    playerOneTurn = true;
+                                }
+
+                                else if (rangerAttackChoice == "2" || rangerAttackChoice == "two")
+                                {
+                                    brawlerHealth = brawlerHealth - rangerAbility;
+                                    ultimateRangerCount = ultimateRangerCount + 1;
+                                    rangerMana = rangerMana - 6;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Right through the chest! " + playerTwoName + " snipes " + playerTwoName + ", tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                    Console.WriteLine(playerTwoName + " now has " + rangerMana + " Mana left.");
+                                    playerOneTurn = true;
+                                }
+                                else if (rangerMana < 6 && rangerAttackChoice == "two" || rangerAttackChoice == "2")
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Not enough Mana!");
+                                    playerTwoTurn = true;
+                                }
+
+                                else if (rangerAttackChoice == "3" || rangerAttackChoice == "three")
+                                {
+                                    brawlerHealth = brawlerHealth - rangerUltimate;
+                                    ultimateRangerCount = 0;
+                                    rangerMana = rangerMana - 10;
+                                    Console.WriteLine("");
+                                    Console.WriteLine("BAM! " + playerTwoName + " releases a beam of light right onto " + playerTwoName + ", leaving no trace behind and disintegrating " + rangerAbility + " HP!");
+                                    Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                    playerOneTurn = true;
+                                }
+                                else if (rangerAttackChoice == "3" || rangerAttackChoice == "three" && rangerMana < 15)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Not enough Mana!");
+                                    playerTwoTurn = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("Please say either 1, 2, or 3!");
+                                    playerTwoTurn = true;
+                                }
+                            }
+                            if (playerOneTurn == true && brawlerHealth <= 0)
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Game Over! " + playerTwoName + " is the winner!");
+                                Console.WriteLine("Thank you for playing!");
+                                gameOver = true;
+                            }
+                        }
+                    }
+                }
+                else if (tutorialChoice == "No" || tutorialChoice == "no" && tutorialChoice != "yes")
+                {
+                    Console.Write("Player One, give me your name: ");
+                    string playerOneName = Console.ReadLine();
+                    Console.Write("Player Two, give me your name: ");
+                    string playerTwoName = Console.ReadLine();
+                    Console.WriteLine("Fight!");
+
+                    while (brawlerHealth > 0 && rangerHealth > 0 && gameOver == false)
+                    {
+                        Random rnd = new Random();
+                        //BRAWLER//
+                        if (playerOneTurn == true && ultimateBrawlerCount < 6)
+                        {
+
+                            int brawlerBasic = rnd.Next(8, 12);
+                            int brawlerAbility = rnd.Next(10, 15);
+                            int brawlerUltimate = rnd.Next(15, 25);
+                            playerOneTurn = false;
+                            Console.WriteLine("");
+                            Console.WriteLine(playerOneName + ": " + brawlerHealth + "HP " + brawlerMana + " Mana");
+                            Console.WriteLine("(1) Pure Strength (Basic): Punch your opponent with ease.");
+                            Console.WriteLine("(2) Iron Fists (Ability): Turn your fists into Iron Gauntlets and land a crushing blow on your opponent! Requires: 7 Mana");
+                            Console.WriteLine("Seismic Slam: Current Charge:" + ultimateBrawlerCount + "/6. Requires: 15 Mana and 6/6 Ultimate Charges.");
+                            Console.Write("Choose your attack: 1 or 2 ");
+                            string brawlerAttackChoice = Console.ReadLine();
+
+                            if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one")
+                            {
+                                rangerHealth = rangerHealth - brawlerBasic;
+                                ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                Console.WriteLine("");
+                                Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks " + playerTwoName + " into oblivion, taking away " + brawlerBasic + " HP!");
+                                playerTwoTurn = true;
+                            }
+
+                            else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two")
+                            {
+                                rangerHealth = rangerHealth - brawlerAbility;
+                                ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                brawlerMana = brawlerMana - 7;
+                                Console.WriteLine("");
+                                Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams " + playerTwoName + " into the ground, launching off " + brawlerAbility + " HP!");
+                                Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                playerTwoTurn = true;
+                            }
+                            else if (brawlerMana < 6 && brawlerAttackChoice == "two" || brawlerAttackChoice == "2")
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Not enough Mana!");
+                                playerOneTurn = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Please say either 1 or 2!");
+                                playerOneTurn = true;
+                            }
+                        }
+                        //BRAWLER ULTIMATE//
+                        else if (playerOneTurn == true && ultimateBrawlerCount >= 6)
+                        {
+                            int brawlerBasic = rnd.Next(8, 12);
+                            int brawlerAbility = rnd.Next(10, 15);
+                            int brawlerUltimate = rnd.Next(15, 25);
+                            playerOneTurn = false;
+                            Console.WriteLine("");
+                            Console.WriteLine(playerOneName + ": " + brawlerHealth + "HP " + brawlerMana + " Mana");
+                            Console.WriteLine("(1) Pure Strength (Basic): Punch your opponent with ease.");
+                            Console.WriteLine("(2) Iron Fists (Ability): Turn your fists into Iron Gauntlets and land a crushing blow on your opponent! Requires: 7 Mana");
+                            Console.WriteLine("(3) Seismic Slam: Forcefully grabs the opponent and hurls them both into the stratosphere, crash landing on the opponent! Requires: 15 Mana");
+                            Console.Write("Choose your attack: 1, 2 or 3 ");
+                            string brawlerAttackChoice = Console.ReadLine();
+
+                            if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one")
+                            {
+                                rangerHealth = rangerHealth - brawlerBasic;
+                                ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                Console.WriteLine("");
+                                Console.WriteLine("Nice Hit! " + playerOneName + "rocks and socks " + playerTwoName + " into oblivion, taking away " + brawlerBasic + " HP!");
+                                playerTwoTurn = true;
+                            }
+                            else if (brawlerMana < 6 && brawlerAttackChoice == "two" || brawlerAttackChoice == "2")
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Not enough Mana!");
+                                playerOneTurn = true;
+                            }
+
+                            else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two")
+                            {
+                                rangerHealth = rangerHealth - brawlerAbility;
+                                ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                brawlerMana = brawlerMana - 7;
+                                Console.WriteLine("");
+                                Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams " + playerTwoName + " into the ground, launching off " + brawlerAbility + " HP!");
+                                Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                playerTwoTurn = true;
+                            }
+                            else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three")
+                            {
+                                rangerHealth = rangerHealth - brawlerUltimate;
+                                ultimateBrawlerCount = 0;
+                                brawlerMana = brawlerMana - 15;
+                                Console.WriteLine("");
+                                Console.WriteLine("BOOM! " + playerOneName + " skydives down to Earth with " + playerTwoName + " and crash lands on top of " + playerTwoName + ", obliterating " + brawlerUltimate + " HP!");
+                                Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                playerTwoTurn = true;
+                            }
+                            else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three" && brawlerMana < 15)
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Not enough Mana!");
+                                playerOneTurn = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Please say either 1, 2, or 3!");
+                                playerOneTurn = true;
+                            }
+                        }
+                        if (playerTwoTurn == true && rangerHealth <= 0)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("Game Over! " + playerOneName + " is the winner!");
+                            Console.WriteLine("Thank you for playing!");
+                            gameOver = true;
+                        }
+                        //RANGER//
+                        if (playerTwoTurn == true && ultimateRangerCount < 6)
+                        {
+                            int rangerBasic = rnd.Next(12, 15);
+                            int rangerAbility = rnd.Next(16, 22);
+                            int rangerUltimate = rnd.Next(23, 40);
+                            playerTwoTurn = false;
+                            Console.WriteLine("");
+                            Console.WriteLine(playerTwoName + ": " + rangerHealth + "HP " + rangerMana + " Mana");
+                            Console.WriteLine("(1) Accuracy and Precision (Basic): Scope in your opponent and shoot a bullet straight into their gut.");
+                            Console.WriteLine("(2) .50 Cal (Ability): Pull out your .50 Caliber Sniper and tear through their body with a single shot! Requires: 6 Mana");
+                            Console.WriteLine("Deadshot: Current Charge:" + ultimateRangerCount + "/6. Requires: 10 Mana and 6/6 Ultimate Charges.");
+                            Console.Write("Choose your attack: 1 or 2 ");
+                            string rangerAttackChoice = Console.ReadLine();
+
+                            if (rangerAttackChoice == "1" || rangerAttackChoice == "one")
+                            {
+                                brawlerHealth = brawlerHealth - rangerBasic;
+                                ultimateRangerCount = ultimateRangerCount + 1;
+                                Console.WriteLine("");
+                                Console.WriteLine("Nice Shot! " + playerTwoName + " lands a direct shot into " + playerOneName + "'s gut, tearing out " + rangerBasic + " HP!");
+                                playerOneTurn = true;
+                            }
+
+                            else if (rangerAttackChoice == "2" || rangerAttackChoice == "two")
+                            {
+                                brawlerHealth = brawlerHealth - rangerAbility;
+                                ultimateRangerCount = ultimateRangerCount + 1;
+                                rangerMana = rangerMana - 6;
+                                Console.WriteLine("");
+                                Console.WriteLine("Right through the chest! " + playerTwoName + " snipes " + playerTwoName + ", tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                Console.WriteLine(playerTwoName + " now has " + rangerMana + " Mana left.");
+                                playerOneTurn = true;
+                            }
+                            else if (rangerMana < 6 && rangerAttackChoice == "two" || rangerAttackChoice == "2")
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Not enough Mana!");
+                                playerOneTurn = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Please say either 1 or 2!");
+                                playerTwoTurn = true;
+                            }
+                        }
+                        //RANGER ULTIMATE//
+                        else if (playerTwoTurn == true && ultimateRangerCount >= 6)
+                        {
+                            int rangerBasic = rnd.Next(12, 15);
+                            int rangerAbility = rnd.Next(16, 22);
+                            int rangerUltimate = rnd.Next(23, 40);
+                            playerTwoTurn = false;
+                            Console.WriteLine("");
+                            Console.WriteLine(playerTwoName + ": " + rangerHealth + "HP " + rangerMana + " Mana");
+                            Console.WriteLine("(1) Accuracy and Precision (Basic): Scope in your opponent and shoot a bullet straight into their gut.");
+                            Console.WriteLine("(2) .50 Cal (Ability): Pull out your .50 Caliber Sniper and tear through their body with a single shot! Requires: 6 Mana");
+                            Console.WriteLine("Deadshot: Charges up a nuclear-infused beam of plasma and shoots right through your opponent's head, disintegrating a matter within the area! Requires: 10 Mana.");
+                            Console.Write("Choose your attack: 1, 2, or 3 ");
+                            string rangerAttackChoice = Console.ReadLine();
+
+                            if (rangerAttackChoice == "1" || rangerAttackChoice == "one")
+                            {
+                                brawlerHealth = brawlerHealth - rangerBasic;
+                                ultimateRangerCount = ultimateRangerCount + 1;
+                                Console.WriteLine("");
+                                Console.WriteLine("Nice Shot! " + playerTwoName + " lands a direct shot into " + playerOneName + "'s gut, tearing out " + rangerBasic + " HP!");
+                                playerOneTurn = true;
+                            }
+
+                            else if (rangerAttackChoice == "2" || rangerAttackChoice == "two")
+                            {
+                                brawlerHealth = brawlerHealth - rangerAbility;
+                                ultimateRangerCount = ultimateRangerCount + 1;
+                                rangerMana = rangerMana - 6;
+                                Console.WriteLine("");
+                                Console.WriteLine("Right through the chest! " + playerTwoName + " snipes " + playerTwoName + ", tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                Console.WriteLine(playerTwoName + " now has " + rangerMana + " Mana left.");
+                                playerOneTurn = true;
+                            }
+                            else if (rangerMana < 6 && rangerAttackChoice == "two" || rangerAttackChoice == "2")
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Not enough Mana!");
+                                playerTwoTurn = true;
+                            }
+
+                            else if (rangerAttackChoice == "3" || rangerAttackChoice == "three")
+                            {
+                                brawlerHealth = brawlerHealth - rangerUltimate;
+                                ultimateRangerCount = 0;
+                                rangerMana = rangerMana - 10;
+                                Console.WriteLine("");
+                                Console.WriteLine("BAM! " + playerTwoName + " releases a beam of light right into " + playerTwoName + ", leaving no trace behind and disintegrating " + rangerAbility + " HP!");
+                                Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                playerOneTurn = true;
+                            }
+                            else if (rangerAttackChoice == "3" || rangerAttackChoice == "three" && rangerMana < 15)
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Not enough Mana!");
+                                playerTwoTurn = true;
+                            }
+                            else
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("Please say either 1, 2, or 3!");
+                                playerTwoTurn = true;
+                            }
+                        }
+                        if (playerOneTurn == true && brawlerHealth <= 0)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("Game Over! " + playerTwoName + " is the winner!");
+                            Console.WriteLine("Thank you for playing!");
+                            gameOver = true;
+                        }
+                    }
+                }
+
+                
+
+            }
+
+            else if (playStyle == "2" || playStyle == "two")
+            {
+
+                Console.Write("Would you like to go through the basics? Yes or No? ");
+                string tutorialChoice = Console.ReadLine();
+
+                if (tutorialChoice == "yes" || tutorialChoice == "Yes" && tutorialChoice != "no" && tutorialChoice != "No")
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Nice! There are two classes: Brawler (Player 1) and Ranger (Player 2).");
+                    Console.WriteLine("Brawler: More HP, less damage, and more mana. Use your abilities to conquer the other player!");
+                    Console.WriteLine("Ranger: Less HP, more damage, and less mana. Rely on your basic attacks and strategy to take down the other player!");
+                    Console.WriteLine("Basic Attacks: Normal attacks that use no mana.");
+                    Console.WriteLine("Abilities: Attacks that require mana and do different things.");
+                    Console.WriteLine("Mana: Energy required to use abilities.");
+                    Console.WriteLine("Ultimates: Special Moves that can deal a ton of damage!");
+                    Console.WriteLine("");
+
+                    Console.Write("Would you like to play as the Ranger or Brawler? ");
+                    string classChoice = Console.ReadLine();
+                    
+
+                    if (classChoice == "Brawler" || classChoice == "brawler")
+                    {
+                        Console.Write("Player One, give me your name: ");
+                        string playerOneName = Console.ReadLine();
+                        Console.WriteLine("Fight!");
+
+                        if (classChoice == "Brawler" || classChoice == "brawler")
+                        {
+                            Random rnd = new Random();
+                            while (gameOver == false)
+                            {
+                                if (playerOneTurn == true && ultimateBrawlerCount < 6)
+                                {
+
+                                    int brawlerBasic = rnd.Next(8, 12);
+                                    int brawlerAbility = rnd.Next(10, 15);
+                                    int brawlerUltimate = rnd.Next(15, 25);
+                                    int cpuDamageNormal = rnd.Next(12, 22);
+                                    int cpuDamageUltimate = rnd.Next(23, 40);
+                                    playerOneTurn = false;
+                                    Console.WriteLine("");
+                                    Console.WriteLine(playerOneName + ": " + brawlerHealth + "HP " + brawlerMana + " Mana");
+                                    Console.WriteLine("[CPU] Poggers has " + rangerHealth);
+                                    Console.WriteLine("(1) Pure Strength (Basic): Punch your opponent with ease.");
+                                    Console.WriteLine("(2) Iron Fists (Ability): Turn your fists into Iron Gauntlets and land a crushing blow on your opponent! Requires: 7 Mana");
+                                    Console.WriteLine("Seismic Slam: Current Charge:" + ultimateBrawlerCount + "/6. Requires: 15 Mana and 6/6 Ultimate Charges.");
+                                    Console.Write("Choose your attack: 1 or 2 ");
+                                    string brawlerAttackChoice = Console.ReadLine();
+
+                                    if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerBasic;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks the CPU into oblivion, taking away " + brawlerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    else if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerBasic;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks the CPU into oblivion, taking away " + brawlerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerAbility;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        brawlerMana = brawlerMana - 7;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams the CPU into the ground, launching off " + brawlerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerAbility;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        brawlerMana = brawlerMana - 7;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams the CPU into the ground, launching off " + brawlerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerMana < 6 && brawlerAttackChoice == "two" || brawlerAttackChoice == "2")
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Not enough Mana!");
+                                        playerOneTurn = true;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Please say either 1 or 2!");
+                                        playerOneTurn = true;
+                                    }
+                                }
+                                //BRAWLER ULTIMATE CPU//
+                                else if (playerOneTurn == true && ultimateBrawlerCount >= 6)
+                                {
+                                    int brawlerBasic = rnd.Next(8, 12);
+                                    int brawlerAbility = rnd.Next(10, 15);
+                                    int brawlerUltimate = rnd.Next(15, 25);
+                                    int cpuDamageNormal = rnd.Next(12, 22);
+                                    int cpuDamageUltimate = rnd.Next(23, 40);
+                                    playerOneTurn = false;
+                                    Console.WriteLine("");
+                                    Console.WriteLine(playerOneName + ": " + brawlerHealth + "HP " + brawlerMana + " Mana");
+                                    Console.WriteLine("[CPU] Poggers has " + rangerHealth);
+                                    Console.WriteLine("(1) Pure Strength (Basic): Punch your opponent with ease.");
+                                    Console.WriteLine("(2) Iron Fists (Ability): Turn your fists into Iron Gauntlets and land a crushing blow on your opponent! Requires: 7 Mana");
+                                    Console.WriteLine("(3) Seismic Slam: Forcefully grabs the opponent and hurls them both into the stratosphere, crash landing on the opponent! Requires: 15 Mana");
+                                    Console.Write("Choose your attack: 1, 2 or 3 ");
+                                    string brawlerAttackChoice = Console.ReadLine();
+
+                                    if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerBasic;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks the CPU into oblivion, taking away " + brawlerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    else if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerBasic;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks the CPU into oblivion, taking away " + brawlerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerMana < 6 && brawlerAttackChoice == "two" || brawlerAttackChoice == "2")
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Not enough Mana!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerAbility;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        brawlerMana = brawlerMana - 7;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams the CPU into the ground, launching off " + brawlerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerAbility;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        brawlerMana = brawlerMana - 7;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams the CPU into the ground, launching off " + brawlerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerUltimate;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = 0;
+                                        brawlerMana = brawlerMana - 15;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BOOM! " + playerOneName + " skydives down to Earth with [CPU] Poggers and crash lands on top of them, obliterating " + brawlerUltimate + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerUltimate;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateBrawlerCount = 0;
+                                        ultimateRangerCount = 0;
+                                        brawlerMana = brawlerMana - 15;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BOOM! " + playerOneName + " skydives down to Earth with [CPU] Poggers and crash lands on top of them, obliterating " + brawlerUltimate + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three" && brawlerMana < 15)
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Not enough Mana!");
+                                        playerOneTurn = true;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Please say either 1, 2, or 3!");
+                                        playerOneTurn = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (classChoice == "Ranger" || classChoice == "ranger")
+                    {
+                        if (classChoice == "Ranger" || classChoice == "Ranger")
+                        {
+                            Console.Write("Player One, give me your name: ");
+                            string playerOneName = Console.ReadLine();
+                            Console.WriteLine("Fight!");
+
+                            if (classChoice == "Ranger" || classChoice == "ranger")
+                            {
+                                Random rnd = new Random();
+                                while (gameOver == false)
+                                {
+                                    //RANGER CPU//
+                                    if (playerOneTurn == true && ultimateRangerCount < 6)
+                                    {
+                                        int rangerBasic = rnd.Next(12, 15);
+                                        int rangerAbility = rnd.Next(16, 22);
+                                        int rangerUltimate = rnd.Next(23, 40);
+                                        int cpuDamageNormal = rnd.Next(12, 22);
+                                        int cpuDamageUltimate = rnd.Next(23, 40);
+                                        playerOneTurn = false;
+                                        Console.WriteLine("");
+                                        Console.WriteLine(playerOneName + ": " + rangerHealth + "HP " + rangerMana + " Mana");
+                                        Console.WriteLine("(1) Accuracy and Precision (Basic): Scope in your opponent and shoot a bullet straight into their gut.");
+                                        Console.WriteLine("(2) .50 Cal (Ability): Pull out your .50 Caliber Sniper and tear through their body with a single shot! Requires: 6 Mana");
+                                        Console.WriteLine("Deadshot: Current Charge:" + ultimateRangerCount + "/6. Requires: 10 Mana and 6/6 Ultimate Charges.");
+                                        Console.Write("Choose your attack: 1 or 2 ");
+                                        string rangerAttackChoice = Console.ReadLine();
+
+                                        if (rangerAttackChoice == "1" || rangerAttackChoice == "one" && ultimateBrawlerCount < 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageNormal;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = ultimateRangerCount + 1;
+                                            ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Nice Shot! " + playerOneName + " lands a direct shot into [CPU] Poggers's gut, tearing out " + rangerBasic + " HP!");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                            playerOneTurn = true;
+                                        }
+                                        else if (rangerAttackChoice == "1" || rangerAttackChoice == "one" && ultimateBrawlerCount >= 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageNormal;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = ultimateRangerCount + 1;
+                                            ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Nice Shot! " + playerOneName + " lands a direct shot into [CPU] Poggers's gut, tearing out " + rangerBasic + " HP!");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                            playerOneTurn = true;
+                                        }
+
+                                        else if (rangerAttackChoice == "2" || rangerAttackChoice == "two" && ultimateBrawlerCount < 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageNormal;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = ultimateRangerCount + 1;
+                                            ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                            rangerMana = rangerMana - 6;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                            Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                            playerOneTurn = true;
+                                        }
+                                        else if (rangerAttackChoice == "2" || rangerAttackChoice == "two" && ultimateBrawlerCount >= 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageNormal;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = ultimateRangerCount + 1;
+                                            ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                            rangerMana = rangerMana - 6;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                            Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                            playerOneTurn = true;
+                                        }
+                                        else if (rangerMana < 6 && rangerAttackChoice == "two" || rangerAttackChoice == "2")
+                                        {
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Not enough Mana!");
+                                            playerOneTurn = true;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Please say either 1 or 2!");
+                                            playerOneTurn = true;
+                                        }
+                                    }
+                                    //RANGER CPU ULTIMATE//
+                                    else if (playerTwoTurn == true && ultimateRangerCount >= 6)
+                                    {
+                                        int rangerBasic = rnd.Next(12, 15);
+                                        int rangerAbility = rnd.Next(16, 22);
+                                        int rangerUltimate = rnd.Next(23, 40);
+                                        int cpuDamageNormal = rnd.Next(12, 22);
+                                        int cpuDamageUltimate = rnd.Next(23, 40);
+                                        playerTwoTurn = false;
+                                        Console.WriteLine("");
+                                        Console.WriteLine(playerOneName + ": " + rangerHealth + "HP " + rangerMana + " Mana");
+                                        Console.WriteLine("(1) Accuracy and Precision (Basic): Scope in your opponent and shoot a bullet straight into their gut.");
+                                        Console.WriteLine("(2) .50 Cal (Ability): Pull out your .50 Caliber Sniper and tear through their body with a single shot! Requires: 6 Mana");
+                                        Console.WriteLine("Deadshot: Charges up a nuclear-infused beam of plasma and shoots right through your opponent's head, disintegrating a matter within the area! Requires: 10 Mana.");
+                                        Console.Write("Choose your attack: 1, 2, or 3 ");
+                                        string rangerAttackChoice = Console.ReadLine();
+
+                                        if (rangerAttackChoice == "1" || rangerAttackChoice == "one" && ultimateBrawlerCount < 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageNormal;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = ultimateRangerCount + 1;
+                                            ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Nice Shot! " + playerOneName + " lands a direct shot into [CPU] Poggers's gut, tearing out " + rangerBasic + " HP!");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                            playerOneTurn = true;
+                                        }
+                                        else if (rangerAttackChoice == "1" || rangerAttackChoice == "one" && ultimateBrawlerCount >= 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageNormal;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = ultimateRangerCount + 1;
+                                            ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Nice Shot! " + playerOneName + " lands a direct shot into [CPU] Poggers's gut, tearing out " + rangerBasic + " HP!");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                            playerOneTurn = true;
+                                        }
+
+                                        else if (rangerAttackChoice == "2" || rangerAttackChoice == "two" && ultimateBrawlerCount < 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageNormal;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = ultimateRangerCount + 1;
+                                            ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                            rangerMana = rangerMana - 6;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                            Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                            playerOneTurn = true;
+                                        }
+                                        else if (rangerAttackChoice == "2" || rangerAttackChoice == "two" && ultimateBrawlerCount >= 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageNormal;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = ultimateRangerCount + 1;
+                                            ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                            rangerMana = rangerMana - 6;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                            Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                            playerOneTurn = true;
+                                        }
+                                        else if (rangerAttackChoice == "3" || rangerAttackChoice == "three" && ultimateBrawlerCount >= 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageUltimate;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = 0;
+                                            ultimateBrawlerCount = 0;
+                                            rangerMana = rangerMana - 10;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                            Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                            playerOneTurn = true;
+                                        }
+                                        else if (rangerAttackChoice == "3" || rangerAttackChoice == "three" && ultimateBrawlerCount < 6)
+                                        {
+                                            rangerHealth = rangerHealth - cpuDamageNormal;
+                                            brawlerHealth = brawlerHealth - rangerBasic;
+                                            ultimateRangerCount = 0;
+                                            ultimateBrawlerCount = 0;
+                                            rangerMana = rangerMana - 10;
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                            Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                            playerOneTurn = true;
+                                        }
+                                        else if (rangerMana < 6 && rangerAttackChoice == "two" || rangerAttackChoice == "2")
+                                        {
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Not enough Mana!");
+                                            playerOneTurn = true;
+                                        }
+
+                                        else if (rangerAttackChoice == "3" || rangerAttackChoice == "three" && rangerMana < 15)
+                                        {
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Not enough Mana!");
+                                            playerOneTurn = true;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("");
+                                            Console.WriteLine("Please say either 1, 2, or 3!");
+                                            playerOneTurn = true;
+                                        }
+                                    }
+                                    if (brawlerHealth <= 0)
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("You Win!");
+                                        Console.WriteLine("Thank you for playing!");
+                                        gameOver = true;
+                                    }
+                                    else if (rangerHealth <= 0)
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("You Lose!");
+                                        Console.WriteLine("Thank you for playing!");
+                                        gameOver = true;
+                                    }
+                                }
+
+
+                            }
+                        }
+                    }
+
+                }
+                else if (tutorialChoice == "No" || tutorialChoice == "no" && tutorialChoice != "yes")
+                {
+                    Console.Write("Would you like to play as the Ranger or Brawler? ");
+                    string classChoice = Console.ReadLine();
+
+                    if (classChoice == "Brawler" || classChoice == "brawler")
+                    {
+                        Console.Write("Player One, give me your name: ");
+                        string playerOneName = Console.ReadLine();
+                        Console.WriteLine("Fight!");
+
+                        if (classChoice == "Brawler" || classChoice == "brawler")
+                        {
+                            Random rnd = new Random();
+                            ultimateRangerCount = 0;
+                            ultimateBrawlerCount = 0;
+                            while (gameOver == false)
+                            {
+                                if (playerOneTurn == true && ultimateBrawlerCount < 6)
+                                {
+
+                                    int brawlerBasic = rnd.Next(8, 12);
+                                    int brawlerAbility = rnd.Next(10, 15);
+                                    int brawlerUltimate = rnd.Next(15, 25);
+                                    int cpuDamageNormal = rnd.Next(12, 22);
+                                    int cpuDamageUltimate = rnd.Next(23, 40);
+                                    playerOneTurn = false;
+                                    Console.WriteLine("");
+                                    Console.WriteLine(playerOneName + ": " + brawlerHealth + "HP " + brawlerMana + " Mana");
+                                    Console.WriteLine("[CPU] Poggers has " + rangerHealth + " HP!");
+                                    Console.WriteLine("(1) Pure Strength (Basic): Punch your opponent with ease.");
+                                    Console.WriteLine("(2) Iron Fists (Ability): Turn your fists into Iron Gauntlets and land a crushing blow on your opponent! Requires: 7 Mana");
+                                    Console.WriteLine("Seismic Slam: Current Charge:" + ultimateBrawlerCount + "/6. Requires: 15 Mana and 6/6 Ultimate Charges.");
+                                    Console.Write("Choose your attack: 1 or 2 ");
+                                    string brawlerAttackChoice = Console.ReadLine();
+
+                                    if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerBasic;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks the CPU into oblivion, taking away " + brawlerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+
+                                   else if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerBasic;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks the CPU into oblivion, taking away " + brawlerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerAbility;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        brawlerMana = brawlerMana - 7;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams the CPU into the ground, launching off " + brawlerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerAbility;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        brawlerMana = brawlerMana - 7;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams the CPU into the ground, launching off " + brawlerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerMana < 6 && brawlerAttackChoice == "two" || brawlerAttackChoice == "2")
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Not enough Mana!");
+                                        playerOneTurn = true;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Please say either 1 or 2!");
+                                        playerOneTurn = true;
+                                    }
+                                }
+                                //BRAWLER ULTIMATE CPU//
+                                else if (playerOneTurn == true && ultimateBrawlerCount >= 6)
+                                {
+                                    int brawlerBasic = rnd.Next(8, 12);
+                                    int brawlerAbility = rnd.Next(10, 15);
+                                    int brawlerUltimate = rnd.Next(15, 25);
+                                    int cpuDamageNormal = rnd.Next(12, 22);
+                                    int cpuDamageUltimate = rnd.Next(23, 40);
+                                    playerOneTurn = false;
+                                    Console.WriteLine("");
+                                    Console.WriteLine(playerOneName + ": " + brawlerHealth + "HP " + brawlerMana + " Mana");
+                                    Console.WriteLine("[CPU] Poggers has " + rangerHealth + " HP!");
+                                    Console.WriteLine("(1) Pure Strength (Basic): Punch your opponent with ease.");
+                                    Console.WriteLine("(2) Iron Fists (Ability): Turn your fists into Iron Gauntlets and land a crushing blow on your opponent! Requires: 7 Mana");
+                                    Console.WriteLine("(3) Seismic Slam: Forcefully grabs the opponent and hurls them both into the stratosphere, crash landing on the opponent! Requires: 15 Mana");
+                                    Console.Write("Choose your attack: 1, 2 or 3 ");
+                                    string brawlerAttackChoice = Console.ReadLine();
+
+                                    if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerBasic;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks the CPU into oblivion, taking away " + brawlerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    if (brawlerAttackChoice == "1" || brawlerAttackChoice == "one" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerBasic;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Hit! " + playerOneName + " rocks and socks the CPU into oblivion, taking away " + brawlerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerMana < 6 && brawlerAttackChoice == "two" || brawlerAttackChoice == "2")
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Not enough Mana!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerAbility;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        brawlerMana = brawlerMana - 7;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams the CPU into the ground, launching off " + brawlerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "2" || brawlerAttackChoice == "two" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerAbility;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        brawlerMana = brawlerMana - 7;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Ouch! " + playerOneName + " uppercuts and slams the CPU into the ground, launching off " + brawlerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three" && ultimateRangerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerUltimate;
+                                        brawlerHealth = brawlerHealth - cpuDamageNormal;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = 0;
+                                        brawlerMana = brawlerMana - 15;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BOOM! " + playerOneName + " skydives down to Earth with [CPU] Poggers and crash lands on top of them, obliterating " + brawlerUltimate + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Sniped! [CPU] Poggers lands a perfect shot into " + playerOneName + " and wipes out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three" && ultimateRangerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - brawlerUltimate;
+                                        brawlerHealth = brawlerHealth - cpuDamageUltimate;
+                                        ultimateBrawlerCount = 0;
+                                        ultimateRangerCount = 0;
+                                        brawlerMana = brawlerMana - 15;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BOOM! " + playerOneName + " skydives down to Earth with [CPU] Poggers and crash lands on top of them, obliterating " + brawlerUltimate + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + brawlerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BAM! [CPU] Poggers releases a beam of light right onto " + playerOneName + ", leaving no trace behind and disintegrating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (brawlerAttackChoice == "3" || brawlerAttackChoice == "three" && brawlerMana < 15)
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Not enough Mana!");
+                                        playerOneTurn = true;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Please say either 1, 2, or 3!");
+                                        playerOneTurn = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (classChoice == "Ranger" || classChoice == "Ranger")
+                    {
+                        Console.Write("Player One, give me your name: ");
+                        string playerOneName = Console.ReadLine();
+                        Console.WriteLine("Fight!");
+
+                        if (classChoice == "Ranger" || classChoice == "ranger")
+                        {
+                            Random rnd = new Random();
+                            while (gameOver == false)
+                            {
+                                //RANGER CPU//
+                                if (playerOneTurn == true && ultimateRangerCount < 6)
+                                {
+                                    int rangerBasic = rnd.Next(12, 15);
+                                    int rangerAbility = rnd.Next(16, 22);
+                                    int rangerUltimate = rnd.Next(23, 40);
+                                    int cpuDamageNormal = rnd.Next(12, 22);
+                                    int cpuDamageUltimate = rnd.Next(23, 40);
+                                    playerOneTurn = false;
+                                    Console.WriteLine("");
+                                    Console.WriteLine(playerOneName + ": " + rangerHealth + "HP " + rangerMana + " Mana");
+                                    Console.WriteLine("[CPU] Poggers has " + brawlerHealth + " HP!");
+                                    Console.WriteLine("(1) Accuracy and Precision (Basic): Scope in your opponent and shoot a bullet straight into their gut.");
+                                    Console.WriteLine("(2) .50 Cal (Ability): Pull out your .50 Caliber Sniper and tear through their body with a single shot! Requires: 6 Mana");
+                                    Console.WriteLine("Deadshot: Current Charge:" + ultimateRangerCount + "/6. Requires: 10 Mana and 6/6 Ultimate Charges.");
+                                    Console.Write("Choose your attack: 1 or 2 ");
+                                    string rangerAttackChoice = Console.ReadLine();
+
+                                    if (rangerAttackChoice == "1" || rangerAttackChoice == "one" && ultimateBrawlerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageNormal;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Shot! " + playerOneName + " lands a direct shot into [CPU] Poggers's gut, tearing out " + rangerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (rangerAttackChoice == "1" || rangerAttackChoice == "one" && ultimateBrawlerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageNormal;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Shot! " + playerOneName + " lands a direct shot into [CPU] Poggers's gut, tearing out " + rangerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    else if (rangerAttackChoice == "2" || rangerAttackChoice == "two" && ultimateBrawlerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageNormal;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        rangerMana = rangerMana - 6;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (rangerAttackChoice == "2" || rangerAttackChoice == "two" && ultimateBrawlerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageNormal;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        rangerMana = rangerMana - 6;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (rangerMana < 6 && rangerAttackChoice == "two" || rangerAttackChoice == "2")
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Not enough Mana!");
+                                        playerOneTurn = true;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Please say either 1 or 2!");
+                                        playerOneTurn = true;
+                                    }
+                                }
+                                //RANGER CPU ULTIMATE//
+                                else if (playerOneTurn == true && ultimateRangerCount >= 6)
+                                {
+                                    int rangerBasic = rnd.Next(12, 15);
+                                    int rangerAbility = rnd.Next(16, 22);
+                                    int rangerUltimate = rnd.Next(23, 40);
+                                    int cpuDamageNormal = rnd.Next(12, 22);
+                                    int cpuDamageUltimate = rnd.Next(23, 40);
+                                    playerTwoTurn = false;
+                                    Console.WriteLine("");
+                                    Console.WriteLine(playerOneName + ": " + rangerHealth + "HP " + rangerMana + " Mana");
+                                    Console.WriteLine("[CPU] Poggers has " + brawlerHealth + " HP!");
+                                    Console.WriteLine("(1) Accuracy and Precision (Basic): Scope in your opponent and shoot a bullet straight into their gut.");
+                                    Console.WriteLine("(2) .50 Cal (Ability): Pull out your .50 Caliber Sniper and tear through their body with a single shot! Requires: 6 Mana");
+                                    Console.WriteLine("Deadshot: Charges up a nuclear-infused beam of plasma and shoots right through your opponent's head, disintegrating a matter within the area! Requires: 10 Mana.");
+                                    Console.Write("Choose your attack: 1, 2, or 3 ");
+                                    string rangerAttackChoice = Console.ReadLine();
+
+                                    if (rangerAttackChoice == "1" || rangerAttackChoice == "one" && ultimateBrawlerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageNormal;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Shot! " + playerOneName + " lands a direct shot into [CPU] Poggers's gut, tearing out " + rangerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (rangerAttackChoice == "1" || rangerAttackChoice == "one" && ultimateBrawlerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageNormal;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Nice Shot! " + playerOneName + " lands a direct shot into [CPU] Poggers's gut, tearing out " + rangerBasic + " HP!");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    else if (rangerAttackChoice == "2" || rangerAttackChoice == "two" && ultimateBrawlerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageNormal;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        rangerMana = rangerMana - 6;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (rangerAttackChoice == "2" || rangerAttackChoice == "two" && ultimateBrawlerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageNormal;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = ultimateRangerCount + 1;
+                                        ultimateBrawlerCount = ultimateBrawlerCount + 1;
+                                        rangerMana = rangerMana - 6;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (rangerAttackChoice == "3" || rangerAttackChoice == "three" && ultimateBrawlerCount >= 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageUltimate;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = 0;
+                                        rangerMana = rangerMana - 10;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BOOM! [CPU] Poggers skydives down to Earth with " + playerOneName + "and crash lands on top of them, obliterating " + cpuDamageUltimate + " HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (rangerAttackChoice == "3" || rangerAttackChoice == "three" && ultimateBrawlerCount < 6)
+                                    {
+                                        rangerHealth = rangerHealth - cpuDamageNormal;
+                                        brawlerHealth = brawlerHealth - rangerBasic;
+                                        ultimateRangerCount = 0;
+                                        ultimateBrawlerCount = 0;
+                                        rangerMana = rangerMana - 10;
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Right through the chest! " + playerOneName + " snipes [CPU] Poggers, tearing a hole into their chest and shooting out " + rangerAbility + " HP!");
+                                        Console.WriteLine(playerOneName + " now has " + rangerMana + " Mana left.");
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Pow! [CPU] Poggers pummels " + playerOneName + " and knocks out " + cpuDamageNormal + "HP!");
+                                        playerOneTurn = true;
+                                    }
+                                    else if (rangerMana < 6 && rangerAttackChoice == "two" || rangerAttackChoice == "2")
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Not enough Mana!");
+                                        playerOneTurn = true;
+                                    }
+
+                                    else if (rangerAttackChoice == "3" || rangerAttackChoice == "three" && rangerMana < 15)
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Not enough Mana!");
+                                        playerOneTurn = true;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("");
+                                        Console.WriteLine("Please say either 1, 2, or 3!");
+                                        playerOneTurn = true;
+                                    }
+                                }
+                                if (brawlerHealth <= 0)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("You Win!");
+                                    Console.WriteLine("Thank you for playing!");
+                                    gameOver = true;
+                                }
+                                else if (rangerHealth <= 0)
+                                {
+                                    Console.WriteLine("");
+                                    Console.WriteLine("You Lose!");
+                                    Console.WriteLine("Thank you for playing!");
+                                    gameOver = true;
+                                }
+                            }
+
+
+                        }
+                    }
+                }    
+
+
+                    else
+                    {
+                        Console.WriteLine("That is not a valid choice!");
+                    }
+
+                    Console.ReadLine();
+                }
+            }
+        }
+    }   
+
